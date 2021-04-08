@@ -2,13 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import reportWebVitals from './reportWebVitals';
-import {requestGameState} from './reducers'
+import {gameState} from './reducers'
 
-const store = createStore(requestGameState, applyMiddleware(thunkMiddleware))
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    }) : compose;
+
+const enhancer = composeEnhancers(
+  applyMiddleware(thunkMiddleware),
+);
+
+const store = createStore(gameState,  enhancer)
 
 ReactDOM.render(
   <React.StrictMode>
