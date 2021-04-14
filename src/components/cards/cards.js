@@ -4,16 +4,15 @@ import { putGameState, setGameState } from '../../actions';
 
 const mapStateToProps = (state) => {
     return {
-      cards: state.gameCards,
-      isPending: state.isPending,
-      score: state.score,
-      hasDefusedCard: state.hasDefusedCard,
-      activeCard: state.activeCard
+      user_name: state.gameState?.user_name,
+      cards: state.gameState?.gameCards,
+      isPending: state.gameState?.isPending,
+      score: state.gameState?.score,
+      hasDefusedCard: state.gameState?.hasDefusedCard,
+      activeCard: state.gameState?.activeCard
     }
   }
   
-  // dispatch the DOM changes to call an action. note mapStateToProps returns object, mapDispatchToProps returns function
-  // the function returns an object then uses connect to change the data from redecers.
   const mapDispatchToProps = (dispatch) => {
     return {
         updateGameState: (obj) => dispatch(putGameState(obj)),
@@ -25,10 +24,9 @@ const Cards = (props) => {
     let left = 0;
     let top = 0;
 
-    
-
     const check = () => {
         const obj= {
+            "user_name": props.user_name,
             "activeCard": props.activeCard,
             "hasDefusedCard": props.hasDefusedCard,
             "isPending": props.isPending,
@@ -38,26 +36,70 @@ const Cards = (props) => {
         let cards = [...props.cards];
         let openedCard = cards.pop();
         obj.activeCard = openedCard;
-        console.log("active card ", openedCard)
         obj.gameCards = cards;
         if(openedCard === "Defuse card 🙅‍♂️")
         obj.hasDefusedCard = true
         else if(openedCard === "Shuffle card 🔀")
-        obj.gameCards = null
+        {
+            obj.gameCards = null
+            obj.hasDefusedCard = false
+        }
         else if(openedCard === 'Exploding kitten card 💣')
         {
             if(!obj.hasDefusedCard)
             {
-                console.log("game over!, you lost the game!");
-                alert("game over!!!")
+                confirmation();
+                
+                function confirmation(){
+                    if (window.confirm(`game over!, you lost the game!, your score is ${obj.score} \n Do you want to play new game`)) {
+                        obj.gameCards = null;
+                    }
+                }
+
+            } else {
+                obj.hasDefusedCard = false
             }    
         }
         
+        // incrementing the score. 
+        // case 1
+        if(openedCard === "Exploding kitten card 💣" && props.hasDefusedCard === true)
+        {
+            if(obj.gameCards?.length === 0 || obj.gameCards === null)
+            {
+                obj.score += 1; 
+                confirmation();
+
+                function confirmation(){
+                    if (window.confirm(`You won the game!!!, your score is ${obj.score} \n Do you want to play new game`)) {
+                        obj.gameCards = null;
+                    }
+                }
+            }
+            props.updateGameState(obj);
+            return;    
+        }
+        //case 2
+        if(openedCard !== "Shuffle card 🔀" && openedCard !== "Exploding kitten card 💣")
+        {
+            console.log("gameCards: ", obj.gameCards)
+            if(obj.gameCards?.length === 0 || obj.gameCards === null)
+            {
+                obj.score += 1; 
+                confirmation();
+
+                function confirmation(){
+                    if (window.confirm(`You won the game!!!, your score is ${obj.score} \n Do you want to play new game`)) {
+                        obj.gameCards = null;
+                    }
+                }
+            }
+        }
         console.log("update!!", obj)
         props.updateGameState(obj);
     }
     return(
-        <div style={{position:'relative', left:'30px', top:'30px'}} onClick={check}>   
+        <div style={{position:'relative', left:'200px', top:'30px'}} onClick={check}>   
         {
             (props.cards?.length !== 0) && 
             props.cards?.map(card => {

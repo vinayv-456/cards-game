@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import reportWebVitals from './reportWebVitals';
-import {gameState} from './reducers'
+import {gameState, getLeaderBoard} from './reducers'
 
 const composeEnhancers =
   typeof window === 'object' &&
@@ -18,7 +18,9 @@ const enhancer = composeEnhancers(
   applyMiddleware(thunkMiddleware),
 );
 
-const store = createStore(gameState,  enhancer)
+const rootReducer = combineReducers({getLeaderBoard, gameState})
+
+const store = createStore(rootReducer,  enhancer)
 
 ReactDOM.render(
   <React.StrictMode>
