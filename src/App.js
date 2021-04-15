@@ -56,7 +56,7 @@ function App(props) {
         "hasDefuseCard": false, 
         "activeCard": null, 
         "user_name": props?.user_name,
-        "score": 0
+        "score": '0'
       }
       props.ifNewUser(obj);
     }
@@ -75,7 +75,9 @@ function App(props) {
     <div style={{display:'flex'}}>
       <div className="container" style={{display:'flex', flex:'2'}}>
         <h1 style={{textAlign:'center'}}>😸 Exploding Kitten</h1>
-        <Cards />
+        <div style={{display:'flex', justifyContent:'center'}}>
+          <Cards />
+        </div>
         {
           props.activeCard
           ?
@@ -93,13 +95,11 @@ function App(props) {
       </div>
       <div className="container" style={{display:'flex', flex:'1'}}>
       <h1 style={{textAlign:'center'}}>Leaderboard</h1>
-      <li>
       {
         (Object.keys(props.users)).map(user=>{
-          return <ul>{user}: {props.users[user]}</ul>
+          return <li style={{borderBottom: '2px solid', margin: '10px', padding:'3px'}}>{user}: {props.users[user]}</li>
         })
       }
-      </li>
       </div>
     </div>
   );

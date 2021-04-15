@@ -67,7 +67,7 @@ const Cards = (props) => {
         {
             if(obj.gameCards?.length === 0 || obj.gameCards === null)
             {
-                obj.score += 1; 
+                obj.score = parseInt(obj.score) + 1; 
                 confirmation();
 
                 function confirmation(){
@@ -85,7 +85,7 @@ const Cards = (props) => {
             console.log("gameCards: ", obj.gameCards)
             if(obj.gameCards?.length === 0 || obj.gameCards === null)
             {
-                obj.score += 1; 
+                obj.score = parseInt(obj.score) + 1; 
                 confirmation();
 
                 function confirmation(){
@@ -99,7 +99,7 @@ const Cards = (props) => {
         props.updateGameState(obj);
     }
     return(
-        <div style={{position:'relative', left:'200px', top:'30px'}} onClick={check}>   
+        <div style={{position:'relative', top:'30px'}} onClick={check}>   
         {
             (props.cards?.length !== 0) && 
             props.cards?.map(card => {
