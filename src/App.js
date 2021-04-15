@@ -99,7 +99,13 @@ function App(props) {
         (Object.keys(props.users)).map(user=>{
           return <div style={{borderBottom: '2px solid', margin: '10px', padding:'3px', display:'flex'}}>
             <div className="equi">{user}: </div>
-            <div className="equi">{props.users[user]} </div>
+            {
+              (user===props.user_name)
+              ?
+              <div className="equi">{props.score} </div>
+              :
+              <div className="equi">{props.users[user]} </div>
+            }
             </div>
         })
       }
