@@ -43,20 +43,20 @@ function App(props) {
   const deckOfCards = () => {
     if(!props?.cards || props.cards?.length === 0)
     { 
-      console.log("inside for deck")
       const charaters = ["Cat card 😼"
         , "Defuse card 🙅‍♂️"
+        , "Shuffle card 🔀"
         , "Exploding kitten card 💣"]
       const randomDeck = [];
       for(let i=0; i<5 ;i++){
-        randomDeck.push(charaters[Math.floor(Math.random() * 3)])
+        randomDeck.push(charaters[Math.floor(Math.random() * 4)])
       }
       const obj = {
         "gameCards": randomDeck,
         "hasDefuseCard": false, 
         "activeCard": null, 
         "user_name": props?.user_name,
-        "score": '0'
+        "score": props?.score
       }
       props.ifNewUser(obj);
     }
@@ -81,7 +81,7 @@ function App(props) {
         {
           props.activeCard
           ?
-          <h1 style={{marginTop:'300px', textAlign:'center'}}>{props.activeCard}</h1>
+          <h1 style={{marginTop:'300px', textAlign:'center'}}>Active Card: {props.activeCard}</h1>
           :
           <h1 style={{marginTop:'300px', textAlign:'center'}}>---</h1>
         }
@@ -97,7 +97,10 @@ function App(props) {
       <h1 style={{textAlign:'center'}}>Leaderboard</h1>
       {
         (Object.keys(props.users)).map(user=>{
-          return <li style={{borderBottom: '2px solid', margin: '10px', padding:'3px'}}>{user}: {props.users[user]}</li>
+          return <div style={{borderBottom: '2px solid', margin: '10px', padding:'3px', display:'flex'}}>
+            <div className="equi">{user}: </div>
+            <div className="equi">{props.users[user]} </div>
+            </div>
         })
       }
       </div>

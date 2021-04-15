@@ -20,7 +20,6 @@ import {
   export const getLeaderBoard = (state=getUsers, action={}) => {
     switch (action.type) {
       case REQUEST_LEADERBOARD_SUCCESS:
-        console.log("action.payload.data ", action.payload.data)
         return {...state, userScores: action.payload?.data}
       case REQUEST_LEADERBOARD_PENDING:
         return {...state, isPending: true}
@@ -41,7 +40,6 @@ import {
   export const gameState = (state=gameStateMain, action={}) => {
     switch (action.type) {
       case SET_USERNAME_SUCCESS:
-        console.log("test: ", action.payload)
         return {...state, user_name: action.payload}
       case REQUEST_GAME_STATE_PENDING:
         return {...state, isPending: true}

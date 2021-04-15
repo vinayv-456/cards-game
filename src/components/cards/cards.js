@@ -82,7 +82,6 @@ const Cards = (props) => {
         //case 2
         if(openedCard !== "Shuffle card 🔀" && openedCard !== "Exploding kitten card 💣")
         {
-            console.log("gameCards: ", obj.gameCards)
             if(obj.gameCards?.length === 0 || obj.gameCards === null)
             {
                 obj.score = parseInt(obj.score) + 1; 
@@ -95,28 +94,32 @@ const Cards = (props) => {
                 }
             }
         }
-        console.log("update!!", obj)
         props.updateGameState(obj);
     }
     return(
-        <div style={{position:'relative', top:'30px'}} onClick={check}>   
-        {
-            (props.cards?.length !== 0) && 
-            props.cards?.map(card => {
-                left = left+10;
-                top = top+10;
-                return <div 
-                        style={{height: '100px',
-                          width: '100px',
-                          position:'absolute', 
-                          left: `${left}px`, 
-                          top:`${top}px`,
-                          backgroundColor: 'black'
-                        }}>
-                        {card}
+        <div>
+            <h3>Tap on the deck to reveal the card</h3>
+            <div style={{position:'relative', top:'30px'}} onClick={check}>   
+            {
+                (props.cards?.length !== 0) && 
+                props.cards?.map(card => {
+                    left = left+10;
+                    top = top+10;
+                    return <div> 
+                        <div 
+                            style={{height: '100px',
+                            width: '100px',
+                            position:'absolute', 
+                            left: `${left}px`, 
+                            top:`${top}px`,
+                            backgroundColor: 'black'
+                            }}>
+                            {/* {card} */}
+                        </div>
                     </div>
-            })
-        }    
+                })
+            }    
+            </div>
         </div>
     )
 }
